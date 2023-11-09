@@ -1,6 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { Input, Button } from "@material-tailwind/react";
+import { useAlert } from "utils/useAlert";
+import { useRecoilValue } from "recoil";
+import { alertAtom } from "recoil/alertAtom";
+import Alert from "popUp/Alert";
 
 const ResvCheck = () => {
   // 예약자 이름 Input
@@ -14,6 +18,10 @@ const ResvCheck = () => {
 
   // 현재 걸려있는 타이머를 저장함
   const [timer, setTimer] = useState(null);
+
+  // Alert
+  const alert = useAlert();
+  const alertState = useRecoilValue(alertAtom);
 
   return (
     <div className="w-screen h-screen">
@@ -55,6 +63,12 @@ const ResvCheck = () => {
           <Button
             className="text-3xl font-bold bg-amber-400 px-[100px]"
             onClick={() => {
+              // 유효성 검사
+              if (nameInputValue === "" || resvIDInputValue === "") {
+                alert.onAndOff("양식을 모두 채워 주세요");
+                return;
+              }
+
               // 서버에게 요청
 
               // 정상응답에 대한 예시
@@ -103,6 +117,8 @@ const ResvCheck = () => {
           )}
         </div>
       </div>
+      {/* Alert 영역 */}
+      {alertState.state && <Alert></Alert>}
     </div>
   );
 };
