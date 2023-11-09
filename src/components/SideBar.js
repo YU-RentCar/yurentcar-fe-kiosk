@@ -19,7 +19,7 @@ const SideBar = () => {
   const nav = useNavigate(); // nav 제어
   const [menu, setMenu] = useState([
     {
-      name: "예약 번호",
+      name: "예약 번호 조회",
       icon: <MdEventAvailable className="text-[40px]" />,
       path: "/resvcheck",
     },
