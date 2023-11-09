@@ -6,6 +6,10 @@ import { Button } from "@material-tailwind/react";
 import option from "./option";
 import colorSet from "./colorSet";
 import MapController from "./MapController";
+import { useAlert } from "utils/useAlert";
+import { useRecoilValue } from "recoil";
+import { alertAtom } from "recoil/alertAtom";
+import Alert from "popUp/Alert";
 
 const axiosList = [
   { type: "인도", x: 1, y: 1 },
@@ -26,6 +30,10 @@ const ParkingMap = () => {
 
   // 컨트롤러
   const mapController = new MapController(50, 45, 80);
+
+  // Alert
+  const alert = useAlert();
+  const alertState = useRecoilValue(alertAtom);
 
   const [zoom, setZoom] = useState(0.6);
   const [rects, setRects] = useState(
@@ -154,6 +162,9 @@ const ParkingMap = () => {
               }
 
               // 서버로부터 차량의 x, y의 좌표 받아옴
+
+              // 오류 날 경우
+              alert.onAndOff("잘못된 요청입니당");
               // 돌아온것이 2,1 이라고 하면
               let x = 0;
               let y = 0;
@@ -200,6 +211,8 @@ const ParkingMap = () => {
           })}
         </Layer>
       </Stage>
+      {/* Alert 영역 */}
+      {alertState.state && <Alert></Alert>}
     </>
   );
 };
