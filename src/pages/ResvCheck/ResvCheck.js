@@ -29,14 +29,16 @@ const ResvCheck = () => {
         {/* 이름 입력 */}
         <div className="w-full h-[200px] flex justify-center items-center mt-[100px]">
           <div className="w-1/2 p-5 bg-white border-2 border-blue-600 rounded-xl">
-            <div className="text-3xl font-bold">
+            <div className="text-3xl font-bold text-gray-600">
               예약자 분의 이름을 입력해주세요
             </div>
             <div className="mt-5">
-              <Input
-                label="이름을 입력해주세요"
+              <input
+                type="text"
                 value={nameInputValue}
                 onChange={(e) => setNameInputValue(e.target.value)}
+                placeholder="이름을 입력해주세요"
+                className="w-full p-2 text-4xl font-bold border-2 border-black rounded-md"
               />
             </div>
           </div>
@@ -45,14 +47,16 @@ const ResvCheck = () => {
         {/* 예약번호 입력 */}
         <div className="w-full h-[200px] flex justify-center items-center">
           <div className="w-1/2 p-5 bg-white border-2 border-blue-600 rounded-xl">
-            <div className="text-3xl font-bold">
+            <div className="text-3xl font-bold text-gray-600">
               예약자 분의 예약번호를 입력해주세요
             </div>
             <div className="mt-5">
-              <Input
-                label="예약번호를 입력해주세요"
+              <input
+                type="text"
                 value={resvIDInputValue}
                 onChange={(e) => setResvIDInputValue(e.target.value)}
+                placeholder="예약번호를 입력해주세요"
+                className="w-full p-2 text-4xl font-bold border-2 border-black rounded-md"
               />
             </div>
           </div>
@@ -107,7 +111,7 @@ const ResvCheck = () => {
               <div>예약 내역이 없습니다!</div>
             </div>
           ) : (
-            <div className="w-1/2 p-5 text-2xl bg-white border-2 border-blue-600 rounded-xl">
+            <div className="w-1/2 p-5 text-4xl font-bold bg-white border-2 border-blue-600 rounded-xl">
               <div>{queryResult.name} 고객님의 차 키는 </div>
               <div>
                 가로로 {queryResult.x}칸 세로로 {queryResult.y}칸의 상자에
