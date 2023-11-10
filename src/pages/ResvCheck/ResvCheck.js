@@ -16,15 +16,12 @@ const ResvCheck = () => {
   // 서버로부터의 응답
   const [queryResult, setQueryResult] = useState(null);
 
-  // 현재 걸려있는 타이머를 저장함
-  const [timer, setTimer] = useState(null);
-
   // Alert
   const alert = useAlert();
   const alertState = useRecoilValue(alertAtom);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen select-none">
       <div className="ml-[500px] h-full bg-sky-50 flex flex-col items-center justify-start">
         {/* 이름 입력 */}
         <div className="w-full h-[200px] flex justify-center items-center mt-[100px]">
@@ -84,20 +81,6 @@ const ResvCheck = () => {
 
               // 비정상응답에 대한 예시
               // setQueryResult(false);
-
-              // 타이머 돌아가던 것이 있으면 해제
-              if (timer !== null) {
-                clearTimeout(timer);
-              }
-
-              // 몇 초뒤 자동으로 초기화
-              setTimer(
-                setTimeout(() => {
-                  setNameInputValue("");
-                  setResvIDInputValue("");
-                  setQueryResult(null);
-                }, 3000)
-              );
             }}
           >
             예약 검색하기
