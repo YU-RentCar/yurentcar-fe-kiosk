@@ -24,7 +24,7 @@ const ResvCheck = () => {
   const alertState = useRecoilValue(alertAtom);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen select-none">
       <div className="ml-[500px] h-full bg-sky-50 flex flex-col items-center justify-start">
         {/* 이름 입력 */}
         <div className="w-full h-[200px] flex justify-center items-center mt-[100px]">
