@@ -35,12 +35,21 @@ const App = () => {
 
     // 로컬스토리지에 없으면 null, 빈 값으로 초기화
     if (window.localStorage.getItem("kioskId") === null) {
-      console.log("없어용");
       setIsKioskIdExist(false);
     } else {
-      console.log("있어요");
-      setRclKioskId(window.localStorage.getItem("kioskId"));
-      setIsKioskIdExist(true);
+      const kioskId = window.localStorage.getItem("kioskId");
+
+      getKioskLocation(kioskId)
+        .then((response) => {
+          setRclKioskId(kioskId);
+          setIsKioskIdExist(true);
+          setRclKioskLocation(response.data);
+          window.localStorage.setItem("kioskId", kioskId);
+        })
+        .catch((error) => {
+          alert.onAndOff("잘못된 키오스크 id 입니다");
+          console.log(error);
+        });
     }
   }, []);
 
