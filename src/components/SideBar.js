@@ -2,13 +2,15 @@ import Logo from "assets/Logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { MdVpnKey, MdEventAvailable, MdLocalParking } from "react-icons/md";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { pageSelector } from "recoil/selectedPageAtom";
 import { resetCounterAtom } from "recoil/resetCounterAtom";
+import { kioskLocationAtom } from "recoil/kioskLocationAtom";
 
 const SideBar = () => {
   const [rclIsClicked, setRclIsClicked] = useRecoilState(pageSelector);
   const [counter, setCounter] = useRecoilState(resetCounterAtom);
+  const rclKioskLocation = useRecoilValue(kioskLocationAtom);
 
   const clickedStyle =
     "w-[400px] h-[60px] px-4 mt-3 rounded-2xl bg-slate-400 flex items-center text-slate-800";
@@ -40,7 +42,7 @@ const SideBar = () => {
         </div>
         {/* 지점 이름 */}
         <div className="w-[500px] justify-center flex text-5xl font-bold text-blue-800 my-4">
-          서울대 지점
+          {rclKioskLocation.province} {rclKioskLocation.branchName}
         </div>
         <div className="flex">
           <div className="text-2xl font-semibold">
