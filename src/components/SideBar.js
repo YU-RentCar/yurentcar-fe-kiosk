@@ -13,7 +13,7 @@ const SideBar = () => {
   const rclKioskLocation = useRecoilValue(kioskLocationAtom);
 
   const clickedStyle =
-    "w-[400px] h-[60px] px-4 mt-3 rounded-2xl bg-slate-400 flex items-center text-slate-800";
+    "w-[400px] my-8 h-[80px] px-4 mt-3 rounded-2xl bg-slate-400 flex items-center text-slate-800 transition-all";
 
   const nav = useNavigate(); // nav 제어
   const [menu, setMenu] = useState([
@@ -65,7 +65,7 @@ const SideBar = () => {
                   className={
                     rclIsClicked[i]
                       ? clickedStyle
-                      : "w-[400px] h-[60px] px-4 mt-3 rounded-2xl hover:bg-slate-400 flex items-center hover:text-slate-800"
+                      : "w-[400px] my-8 h-[60px] px-4 mt-3 rounded-2xl hover:bg-slate-400 flex items-center hover:text-slate-800"
                   }
                   onClick={() => {
                     setRclIsClicked(i);
@@ -79,14 +79,6 @@ const SideBar = () => {
             })}
           </div>
         </div>{" "}
-        <button
-          className="w-[450px] h-[70px] mb-4 flex justify-center items-center bg-sky-200 rounded-2xl text-3xl font-extrabold hover:shadow-figma"
-          onClick={() => {
-            // set to admin mode
-          }}
-        >
-          관리자 모드
-        </button>
       </div>
     </div>
   );

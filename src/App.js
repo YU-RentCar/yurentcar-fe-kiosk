@@ -13,6 +13,7 @@ import { kioskLocationAtom } from "recoil/kioskLocationAtom";
 import Alert from "popUp/Alert";
 import { useAlert } from "utils/useAlert";
 import { alertAtom } from "recoil/alertAtom";
+import { pageSelector } from "recoil/selectedPageAtom";
 
 const App = () => {
   const nav = useNavigate();
@@ -25,6 +26,8 @@ const App = () => {
   const [rclKioskId, setRclKioskId] = useRecoilState(kioskIdAtom);
   const [rclKioskLocation, setRclKioskLocation] =
     useRecoilState(kioskLocationAtom);
+
+  const [rclSelectedPage, setRclSelectedPage] = useRecoilState(pageSelector);
 
   const [input, setInput] = useState("");
 
@@ -118,8 +121,10 @@ const App = () => {
                 </h1>
                 <button
                   onClick={() => {
+                    setRclSelectedPage(0);
+                    nav("/resvcheck");
                     setIsInitialPage(false);
-                    setCounter(10);
+                    setCounter(240);
                   }}
                   className="w-1/4 py-10 mt-[50px] bg-blue-300 rounded-md text-4xl font-bold"
                 >
