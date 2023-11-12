@@ -10,6 +10,8 @@ import { useAlert } from "utils/useAlert";
 import { useRecoilValue } from "recoil";
 import { alertAtom } from "recoil/alertAtom";
 import Alert from "popUp/Alert";
+import { getMap } from "api/parkingMapAxios";
+import { kioskLocationAtom } from "recoil/kioskLocationAtom";
 
 const axiosList = [
   { type: "인도", x: 1, y: 1 },
@@ -24,6 +26,8 @@ const axiosList = [
 ];
 
 const ParkingMap = () => {
+  const kioskLocation = useRecoilValue(kioskLocationAtom);
+
   // 버튼 스타일 상수
   const UNSELECTED_STYLE =
     "flex items-center justify-start p-2 text-xl font-bold border-gray-500 rounded-2xl";
@@ -66,18 +70,26 @@ const ParkingMap = () => {
   // 초기에 서버에 저장되어있는 지도를 가져와 렌더링
   // axiosList로 지도 정보를 받았다고 가정
   useEffect(() => {
-    for (const item of axiosList) {
-      const idx = item.y * mapController.COL + item.x;
+    getMap(kioskLocation)
+      .then((response) => {
+        console.log(response);
 
-      rects[idx] = {
-        id: idx.toString(),
-        x: mapController.getX(idx, zoom),
-        y: mapController.getY(idx, zoom),
-        fill: colorSet[option[item.type]],
-      };
-    }
+        for (const item of response.data) {
+          const idx = item.y * mapController.COL + item.x;
 
-    setRects([...rects]);
+          rects[idx] = {
+            id: idx.toString(),
+            x: mapController.getX(idx, zoom),
+            y: mapController.getY(idx, zoom),
+            fill: colorSet[option[item.type]],
+          };
+        }
+
+        setRects([...rects]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
