@@ -6,6 +6,7 @@ import Map from "pages/Map/Map";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { resetCounterAtom } from "recoil/resetCounterAtom";
 import Logo from "./assets/Logo.svg";
+import ReturnKey from "pages/ReturnKey/ReturnKey";
 import { kioskIdAtom } from "recoil/kioskIdAtom";
 import { getKioskLocation } from "api/kioskLocationAxios";
 import { kioskLocationAtom } from "recoil/kioskLocationAtom";
@@ -132,7 +133,10 @@ const App = () => {
                   element={<ResvCheck></ResvCheck>}
                 ></Route>
                 <Route path="/map" element={<Map></Map>}></Route>
-                <Route path="/returnkey" element={<div>returnkey</div>}></Route>
+                <Route
+                  path="/returnkey"
+                  element={<ReturnKey></ReturnKey>}
+                ></Route>
               </Routes>
             </div>
           )}
