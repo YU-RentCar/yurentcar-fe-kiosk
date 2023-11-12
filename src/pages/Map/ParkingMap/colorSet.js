@@ -3,6 +3,7 @@ export const colorSet = {
   parkingDisable: "#F87171",
   parkingAvailable: "#60A5FA",
   driveway: "#94A3B8",
+  carExist: "#60A5FA",
 };
 
 export default colorSet;
