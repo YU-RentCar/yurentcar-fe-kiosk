@@ -2,7 +2,7 @@ import axios from "axios";
 
 /* axios 기본 세팅 (인스턴스 이름 api) */
 export const api = axios.create({
-  baseURL: "http://be.yurentcar.kro.kr:1234/api/v1",
+  baseURL: "http://deploytest.iptime.org:8080/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
