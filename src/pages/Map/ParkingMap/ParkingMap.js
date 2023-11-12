@@ -10,20 +10,8 @@ import { useAlert } from "utils/useAlert";
 import { useRecoilValue } from "recoil";
 import { alertAtom } from "recoil/alertAtom";
 import Alert from "popUp/Alert";
-import { getMap } from "api/parkingMapAxios";
+import { getCarCoordinate, getMap } from "api/parkingMapAxios";
 import { kioskLocationAtom } from "recoil/kioskLocationAtom";
-
-const axiosList = [
-  { type: "인도", x: 1, y: 1 },
-  { type: "차도", x: 2, y: 1 },
-  { type: "주차 가능", x: 1, y: 2 },
-  { type: "주차 불가능", x: 2, y: 2 },
-  { type: "인도", x: 3, y: 3 },
-  { type: "주차 가능", x: 3, y: 4 },
-  { type: "차도", x: 4, y: 3 },
-  { type: "인도", x: 5, y: 3 },
-  { type: "주차 불가능", x: 3, y: 5 },
-];
 
 const ParkingMap = () => {
   const kioskLocation = useRecoilValue(kioskLocationAtom);
@@ -39,7 +27,7 @@ const ParkingMap = () => {
   const alert = useAlert();
   const alertState = useRecoilValue(alertAtom);
 
-  const [zoom, setZoom] = useState(0.6);
+  const [zoom, setZoom] = useState(0.2);
   const [rects, setRects] = useState(
     [...Array(mapController.MAX)].map((v, i) => {
       return {
@@ -160,38 +148,36 @@ const ParkingMap = () => {
           <Button
             className="w-full mt-3 text-2xl text-black bg-amber-400"
             onClick={() => {
-              let id = 0;
+              getCarCoordinate(carNumberInput, kioskLocation)
+                .then((response) => {
+                  let id = 0;
+                  const x = response.data.x;
+                  const y = response.data.y;
+                  if (changeCoordinate.x !== -1 && changeCoordinate.y !== -1) {
+                    id =
+                      mapController.COL * changeCoordinate.y +
+                      changeCoordinate.x;
 
-              if (changeCoordinate.x !== -1 && changeCoordinate.y !== -1) {
-                id =
-                  mapController.COL * changeCoordinate.x + changeCoordinate.y;
+                    const temp = [...rects];
 
-                const temp = [...rects];
+                    temp[id].fill = "#60A5FA";
 
-                temp[id].fill = "#60A5FA";
+                    setRects(temp);
+                  }
+                  id = mapController.COL * y + x;
 
-                setRects(temp);
-              }
+                  setChangeCoordinate({ x: x, y: y });
 
-              // 서버로부터 차량의 x, y의 좌표 받아옴
+                  const temp = [...rects];
+                  temp[id].fill = "#7C3AED";
 
-              // 오류 날 경우
-              alert.onAndOff("잘못된 요청입니당");
-              // 돌아온것이 2,1 이라고 하면
-              let x = 0;
-              let y = 0;
-
-              [x, y] = carNumberInput.split("_").map((item) => Number(item));
-
-              setChangeCoordinate({ x: x, y: y });
-
-              id = mapController.COL * x + y;
-
-              const temp = [...rects];
-
-              temp[id].fill = "#7C3AED";
-
-              setRects(temp);
+                  setRects(temp);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  alert.onAndOff("잘못된 요청입니당");
+                  setChangeCoordinate({ x: -1, y: -1 });
+                });
             }}
           >
             차량 위치 검색
@@ -200,7 +186,7 @@ const ParkingMap = () => {
       </div>
 
       <Stage
-        width={1136}
+        width={1140}
         height={550}
         draggable
         className="border-2 border-yellow-700 bg-purple-50"
@@ -223,6 +209,7 @@ const ParkingMap = () => {
           })}
         </Layer>
       </Stage>
+      <div>지도를 드래그해서 볼 수 있습니다</div>
       {/* Alert 영역 */}
       {alertState.state && <Alert></Alert>}
     </>

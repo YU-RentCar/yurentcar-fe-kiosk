@@ -12,3 +12,15 @@ export const getMap = (kioskLocation) => {
     },
   });
 };
+
+export const getCarCoordinate = (carNumber, locationInfo) => {
+  return api({
+    url: "branches/parkingSpots/location",
+    method: "get",
+    params: {
+      carNumber: carNumber,
+      province: locationInfo.province,
+      branchName: locationInfo.branchName,
+    },
+  });
+};
