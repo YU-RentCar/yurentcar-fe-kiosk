@@ -5,6 +5,8 @@ import { useAlert } from "utils/useAlert";
 import { useRecoilValue } from "recoil";
 import { alertAtom } from "recoil/alertAtom";
 import Alert from "popUp/Alert";
+import { inquireCarKeyAxios } from "api/inquireCarKeyAxios";
+import { kioskIdAtom } from "recoil/kioskIdAtom";
 
 const ResvCheck = () => {
   // 예약자 이름 Input
@@ -19,6 +21,9 @@ const ResvCheck = () => {
   // Alert
   const alert = useAlert();
   const alertState = useRecoilValue(alertAtom);
+
+  // kiosk id
+  const kioskId = useRecoilValue(kioskIdAtom);
 
   return (
     <div className="w-screen h-screen select-none">
@@ -71,16 +76,17 @@ const ResvCheck = () => {
               }
 
               // 서버에게 요청
-
-              // 정상응답에 대한 예시
-              setQueryResult({
-                name: nameInputValue,
-                x: 2,
-                y: 5,
-              });
-
-              // 비정상응답에 대한 예시
-              // setQueryResult(false);
+              inquireCarKeyAxios(nameInputValue, resvIDInputValue, kioskId)
+                .then((response) => {
+                  console.log(response);
+                  // 정상응답에 대한 예시
+                  setQueryResult(response.data);
+                })
+                .catch((error) => {
+                  // 비정상응답에 대한 예시
+                  setQueryResult(false);
+                  console.log(error);
+                });
             }}
           >
             예약 검색하기
@@ -95,11 +101,8 @@ const ResvCheck = () => {
             </div>
           ) : (
             <div className="w-1/2 p-5 text-4xl font-bold bg-white border-2 border-blue-600 rounded-xl">
-              <div>{queryResult.name} 고객님의 차 키는 </div>
-              <div>
-                가로로 {queryResult.x}칸 세로로 {queryResult.y}칸의 상자에
-                있습니다.
-              </div>
+              <div>고객님의 차 키는</div>
+              <div>{queryResult}번째 상자에 들어 있습니다.</div>
             </div>
           )}
         </div>
