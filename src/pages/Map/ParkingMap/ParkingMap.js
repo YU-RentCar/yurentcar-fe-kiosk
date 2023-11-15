@@ -175,7 +175,7 @@ const ParkingMap = () => {
                 })
                 .catch((error) => {
                   console.log(error);
-                  alert.onAndOff("잘못된 요청입니당");
+                  alert.onAndOff("잘못된 요청입니다");
                   setChangeCoordinate({ x: -1, y: -1 });
                 });
             }}
